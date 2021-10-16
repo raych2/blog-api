@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+const post_controller = require('../controllers/postController');
+const user_controller = require('../controllers/userController');
+const comment_controller = require('../controllers/commentController');
+
+//sign up user on blog editor
+router.post('/signup', user_controller.user_signup);
 
 module.exports = router;
