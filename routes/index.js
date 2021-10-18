@@ -1,5 +1,7 @@
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const auth = require('../auth/auth');
 
 const post_controller = require('../controllers/postController');
 const user_controller = require('../controllers/userController');
