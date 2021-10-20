@@ -65,3 +65,11 @@ exports.post_detail = async (req, res) => {
   }
   res.status(200).json({ post });
 };
+
+exports.delete_post = async (req, res) => {
+  const post = await Post.findByIdAndDelete(req.params.id).catch((err) => {
+    res.status(500).json({ err });
+    throw err;
+  });
+  res.status(200).json({ message: 'Post successfully deleted' });
+};

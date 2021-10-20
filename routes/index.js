@@ -15,12 +15,20 @@ router.post('/login', user_controller.user_login);
 router.get('/', post_controller.index);
 router.get('/posts', post_controller.post_list);
 
-router.get('/posts/:id', passport.authenticate('jwt', { session: false }), post_controller.post_detail);
-
+router.get(
+  '/posts/:id',
+  passport.authenticate('jwt', { session: false }),
+  post_controller.post_detail
+);
 router.post(
   '/posts/create',
   passport.authenticate('jwt', { session: false }),
   post_controller.create_post
+);
+router.delete(
+  '/posts/:id',
+  passport.authenticate('jwt', { session: false }),
+  post_controller.delete_post
 );
 
 module.exports = router;
