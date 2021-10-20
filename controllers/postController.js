@@ -47,6 +47,21 @@ exports.create_post = [
       res.status(500).json({ message: 'Post creation failed' });
       throw err;
     });
-    res.status(200).json({ message: 'New post successfully created', post: newPost });
+    res
+      .status(200)
+      .json({ message: 'New post successfully created', post: newPost });
   },
 ];
+
+exports.post_detail = async (req, res) => {
+  const post = await Post.findById(req.params.id)
+    .exec()
+    .catch((err) => {
+      res.status(500).json({ err });
+      throw err;
+    });
+  if (!post) {
+    return res.status(404).json({ message: 'Post not found' });
+  }
+  res.status(200).json({ post });
+};
