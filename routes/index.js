@@ -12,4 +12,7 @@ router.post('/signup', user_controller.user_signup);
 //log in user on blog editor
 router.post('/login', user_controller.user_login);
 
+router.get('/', post_controller.index);
+router.get('/posts', post_controller.post_list);
+
 module.exports = router;
