@@ -27,5 +27,10 @@ router.delete(
   passport.authenticate('jwt', { session: false }),
   post_controller.delete_post
 );
+router.put(
+  '/posts/:id',
+  passport.authenticate('jwt', { session: false }),
+  post_controller.update_post
+);
 
 module.exports = router;
