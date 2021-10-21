@@ -32,5 +32,10 @@ router.put(
   passport.authenticate('jwt', { session: false }),
   post_controller.update_post
 );
+router.put(
+  '/posts/:id/publish',
+  passport.authenticate('jwt', { session: false }),
+  post_controller.publish_post
+);
 
 module.exports = router;

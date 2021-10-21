@@ -81,7 +81,7 @@ exports.update_post = [
     .escape(),
   body('text', 'Text must not be empty.').trim().isLength({ min: 1 }).escape(),
 
-  async (req, res, next) => {
+  async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.json({ post: req.body, errors: errors.array() });
@@ -97,3 +97,15 @@ exports.update_post = [
     res.status(200).json({ message: 'Post successfully updated' });
   },
 ];
+
+exports.publish_post = async (req, res) => {
+  const post = await Post.findByIdAndUpdate(
+    req.params.id,
+    { $set: { published: true } },
+    { new: true }
+  ).catch((err) => {
+    res.status(500).json({ err });
+    throw err;
+  });
+  res.status(200).json({ message: 'Post successfully published' });
+};
