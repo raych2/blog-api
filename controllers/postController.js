@@ -35,21 +35,18 @@ exports.create_post = [
     if (!errors.isEmpty()) {
       return res.json({ post: req.body, errors: errors.array() });
     }
-    const post = new Post({
+    const post = await Post.create({
       title: req.body.title,
       author: req.user._id,
       text: req.body.text,
       published: false,
       comments: [],
       timestamps: true,
-    });
-    const newPost = await post.save().catch((err) => {
+    }).catch((err) => {
       res.status(500).json({ message: 'Post creation failed' });
       throw err;
     });
-    res
-      .status(200)
-      .json({ message: 'New post successfully created', post: newPost });
+    res.status(200).json({ message: 'New post successfully created', post });
   },
 ];
 
