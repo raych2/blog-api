@@ -35,3 +35,21 @@ exports.add_comment = [
     res.status(200).json({ message: 'New comment successfully added' });
   },
 ];
+
+exports.delete_comment = async (req, res) => {
+  const comment = await Comment.findByIdAndDelete(req.params.commentId).catch(
+    (err) => {
+      res.status(500).json({ err });
+      throw err;
+    }
+  );
+  const post = await Post.findByIdAndUpdate(
+    req.params.id,
+    { $pull: { comments: req.params.commentId } },
+    { new: true }
+  ).catch((err) => {
+    res.status(500).json({ err });
+    throw err;
+  });
+  res.status(200).json({ message: 'Comment successfully deleted' });
+};
