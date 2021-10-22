@@ -14,19 +14,18 @@ exports.add_comment = [
     if (!errors.isEmpty()) {
       return res.json({ comment: req.body, errors: errors.array() });
     }
-    const comment = new Comment({
+    const comment = await Comment.create({
       author: req.body.author,
       text: req.body.text,
       post: req.params.postId,
       timestamps: true,
-    });
-    const newComment = await comment.save().catch((err) => {
+    }).catch((err) => {
       res.status(500).json({ message: 'Cannot add comment to post' });
       throw err;
     });
     const post = await Post.findByIdAndUpdate(
       req.params.postId,
-      { $push: { comments: newComment } },
+      { $push: { comments: comment } },
       { new: true }
     ).catch((err) => {
       res.status(500).json({ err });
@@ -37,19 +36,16 @@ exports.add_comment = [
 ];
 
 exports.delete_comment = async (req, res) => {
-  const comment = await Comment.findByIdAndDelete(req.params.commentId).catch(
-    (err) => {
-      res.status(500).json({ err });
-      throw err;
-    }
-  );
-  const post = await Post.findByIdAndUpdate(
-    req.params.postId,
-    { $pull: { comments: req.params.commentId } },
-    { new: true }
-  ).catch((err) => {
+  try {
+    const comment = await Comment.findByIdAndDelete(req.params.commentId);
+    const post = await Post.findByIdAndUpdate(
+      req.params.postId,
+      { $pull: { comments: req.params.commentId } },
+      { new: true }
+    );
+  } catch (err) {
     res.status(500).json({ err });
     throw err;
-  });
+  }
   res.status(200).json({ message: 'Comment successfully deleted' });
 };
