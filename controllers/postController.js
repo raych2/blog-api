@@ -55,6 +55,7 @@ exports.create_post = [
 
 exports.post_detail = async (req, res) => {
   const post = await Post.findById(req.params.postId)
+    .populate('author comments')
     .exec()
     .catch((err) => {
       res.status(500).json({ err });
