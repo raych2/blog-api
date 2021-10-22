@@ -17,7 +17,7 @@ exports.add_comment = [
     const comment = new Comment({
       author: req.body.author,
       text: req.body.text,
-      post: req.params.id,
+      post: req.params.postId,
       timestamps: true,
     });
     const newComment = await comment.save().catch((err) => {
@@ -25,7 +25,7 @@ exports.add_comment = [
       throw err;
     });
     const post = await Post.findByIdAndUpdate(
-      req.params.id,
+      req.params.postId,
       { $push: { comments: newComment } },
       { new: true }
     ).catch((err) => {
@@ -44,7 +44,7 @@ exports.delete_comment = async (req, res) => {
     }
   );
   const post = await Post.findByIdAndUpdate(
-    req.params.id,
+    req.params.postId,
     { $pull: { comments: req.params.commentId } },
     { new: true }
   ).catch((err) => {

@@ -54,7 +54,7 @@ exports.create_post = [
 ];
 
 exports.post_detail = async (req, res) => {
-  const post = await Post.findById(req.params.id)
+  const post = await Post.findById(req.params.postId)
     .exec()
     .catch((err) => {
       res.status(500).json({ err });
@@ -67,7 +67,7 @@ exports.post_detail = async (req, res) => {
 };
 
 exports.delete_post = async (req, res) => {
-  const post = await Post.findByIdAndDelete(req.params.id).catch((err) => {
+  const post = await Post.findByIdAndDelete(req.params.postId).catch((err) => {
     res.status(500).json({ err });
     throw err;
   });
@@ -87,7 +87,7 @@ exports.update_post = [
       return res.json({ post: req.body, errors: errors.array() });
     }
     const { title, text } = req.body;
-    const updatedPost = await Post.findByIdAndUpdate(req.params.id, {
+    const updatedPost = await Post.findByIdAndUpdate(req.params.postId, {
       title,
       text,
     }).catch((err) => {
@@ -100,7 +100,7 @@ exports.update_post = [
 
 exports.publish_post = async (req, res) => {
   const post = await Post.findByIdAndUpdate(
-    req.params.id,
+    req.params.postId,
     { $set: { published: true } },
     { new: true }
   ).catch((err) => {
