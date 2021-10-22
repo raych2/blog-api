@@ -38,4 +38,6 @@ router.put(
   post_controller.publish_post
 );
 
+router.post('/posts/:id/comments/addComment', comment_controller.add_comment);
+
 module.exports = router;
