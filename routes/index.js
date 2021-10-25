@@ -7,9 +7,7 @@ const post_controller = require('../controllers/postController');
 const user_controller = require('../controllers/userController');
 const comment_controller = require('../controllers/commentController');
 
-//sign up user on blog editor
 router.post('/signup', user_controller.user_signup);
-//log in user on blog editor
 router.post('/login', user_controller.user_login);
 
 router.get('/', post_controller.index);
