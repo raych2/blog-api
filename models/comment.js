@@ -10,6 +10,14 @@ const CommentSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret, options) {
+        delete ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
   }
 );
 

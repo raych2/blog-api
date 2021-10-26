@@ -13,6 +13,14 @@ const PostSchema = new Schema(
   },
   {
     timestamps: true,
+    toJSON: {
+      virtuals: true,
+      transform: function (doc, ret, options) {
+        delete ret.id;
+        delete ret.__v;
+        return ret;
+      },
+    },
   }
 );
 
@@ -23,7 +31,7 @@ PostSchema.virtual('postDate').get(function () {
 });
 
 PostSchema.virtual('url').get(function () {
-  return '/post/' + this._id;
+  return '/posts/' + this._id;
 });
 
 module.exports = mongoose.model('Post', PostSchema);
