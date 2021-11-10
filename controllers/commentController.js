@@ -31,7 +31,9 @@ exports.add_comment = [
       res.status(500).json({ err });
       throw err;
     });
-    res.status(200).json({ message: 'New comment successfully added' });
+    res
+      .status(200)
+      .json({ message: 'New comment successfully added', comment });
   },
 ];
 
