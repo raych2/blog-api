@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const Comment = require('../models/comment');
 const { body, validationResult } = require('express-validator');
 
 exports.index = (req, res) => {
@@ -65,11 +66,14 @@ exports.post_detail = async (req, res) => {
 };
 
 exports.delete_post = async (req, res) => {
-  const post = await Post.findByIdAndDelete(req.params.postId).catch((err) => {
+  try {
+    const post = await Post.findByIdAndDelete(req.params.postId);
+    const comments = await Comment.deleteMany({ postId: req.params.postId });
+  } catch (err) {
     res.status(500).json({ err });
     throw err;
-  });
-  res.status(200).json({ message: 'Post successfully deleted' });
+  }
+  res.status(200).json({ message: `Post and associated comments successfully deleted` });
 };
 
 exports.update_post = [
