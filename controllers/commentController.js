@@ -17,7 +17,7 @@ exports.add_comment = [
     const comment = await Comment.create({
       author: req.body.author,
       text: req.body.text,
-      post: req.params.postId,
+      postId: req.params.postId,
       timestamps: true,
     }).catch((err) => {
       res.status(500).json({ message: 'Cannot add comment to post' });
