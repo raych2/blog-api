@@ -1,6 +1,7 @@
 const User = require('../models/user');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
+const { NotExtended } = require('http-errors');
 
 exports.user_signup = [
   body('username', 'Username required')
@@ -36,20 +37,15 @@ exports.user_login = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username }).exec();
     if (!user) {
-      res.status(400).json({ message: 'The username does not exist' });
+      return res.status(400).json({ message: 'The username does not exist' });
     }
-    const validPassword = await user.validatePassword(
-      req.body.password,
-      (error, match) => {
-        if (!match) {
-          res.status(401).json({ message: 'The password is invalid' });
-        }
-      }
-    );
+    const validPassword = await user.validatePassword(req.body.password);
     if (validPassword) {
       const secret = process.env.SECRET;
       const token = jwt.sign({ user: user }, secret, { expiresIn: '1d' });
-      res.status(200).json({ message: 'Auth Passed', token });
+      return res.status(200).json({ message: 'Auth Passed', token });
+    } else {
+      return res.status(401).json({ message: 'The password is invalid' });
     }
   } catch (error) {
     res.status(401).json({ message: 'Authentication failed' });
