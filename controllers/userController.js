@@ -1,7 +1,6 @@
 const User = require('../models/user');
 const { body, validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
-const { NotExtended } = require('http-errors');
 
 exports.user_signup = [
   body('username', 'Username required')
@@ -17,16 +16,26 @@ exports.user_signup = [
       });
     })
     .escape(),
-  body('password', 'Password required').trim().isLength({ min: 6 }).escape(),
+  body('password', 'Password with minimum length of 6 characters required.')
+    .trim()
+    .isLength({ min: 6 })
+    .escape(),
 
   async (req, res) => {
     try {
-      const user = new User({
-        username: req.body.username,
-        password: req.body.password,
-      });
-      const result = await user.save();
-      res.json({ message: 'Signup successful', user: result });
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        res.json({
+          errors: errors.array(),
+        });
+      } else {
+        const user = new User({
+          username: req.body.username,
+          password: req.body.password,
+        });
+        const result = await user.save();
+        res.json({ message: 'Signup successful', user: result });
+      }
     } catch (error) {
       res.status(500).send(error);
     }
