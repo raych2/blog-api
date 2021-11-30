@@ -14,22 +14,19 @@ router.post('/signup', user_controller.user_signup);
 router.post('/login', user_controller.user_login);
 
 router.post(
-  '/posts/create',
+  '/posts',
   passport.authenticate('jwt', { session: false }),
   post_controller.create_post
 );
 router.get('/posts/:postId', post_controller.post_detail);
-router.post(
-  '/posts/:postId/comments/addComment',
-  comment_controller.add_comment
-);
+router.post('/posts/:postId/comments', comment_controller.add_comment);
 router.put(
   '/posts/:postId',
   passport.authenticate('jwt', { session: false }),
   post_controller.update_post
 );
 router.put(
-  '/posts/:postId/publish',
+  '/posts/:postId',
   passport.authenticate('jwt', { session: false }),
   post_controller.publish_post
 );
