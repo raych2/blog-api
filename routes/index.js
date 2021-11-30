@@ -26,7 +26,7 @@ router.put(
   post_controller.update_post
 );
 router.put(
-  '/posts/:postId',
+  '/posts/:postId/publish',
   passport.authenticate('jwt', { session: false }),
   post_controller.publish_post
 );
