@@ -37,7 +37,7 @@ exports.user_signup = [
         res.json({ message: 'Signup successful', user: result });
       }
     } catch (error) {
-      res.status(500).send(error);
+      res.status(400).send(error);
     }
   },
 ];
@@ -46,7 +46,7 @@ exports.user_login = async (req, res) => {
   try {
     const user = await User.findOne({ username: req.body.username }).exec();
     if (!user) {
-      return res.status(400).json({ message: 'The username does not exist' });
+      return res.status(404).json({ message: 'The username does not exist' });
     }
     const validPassword = await user.validatePassword(req.body.password);
     if (validPassword) {

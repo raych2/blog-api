@@ -12,11 +12,11 @@ exports.post_list = async (req, res) => {
     .populate('author')
     .exec()
     .catch((err) => {
-      res.status(500).json({ err });
+      res.status(404).json({ err });
       throw err;
     });
   if (!posts) {
-    return res.status(400).json({ message: 'There are no posts available' });
+    return res.status(404).json({ message: 'There are no posts available' });
   }
   return res.status(200).json({
     posts,
@@ -44,7 +44,7 @@ exports.create_post = [
       comments: [],
       timestamps: true,
     }).catch((err) => {
-      res.status(500).json({ message: 'Post creation failed' });
+      res.status(400).json({ message: 'Post creation failed' });
       throw err;
     });
     res.status(200).json({ message: 'New post successfully created', post });
@@ -56,7 +56,7 @@ exports.post_detail = async (req, res) => {
     .populate('author comments')
     .exec()
     .catch((err) => {
-      res.status(500).json({ err });
+      res.status(404).json({ err });
       throw err;
     });
   if (!post) {
@@ -70,10 +70,12 @@ exports.delete_post = async (req, res) => {
     const post = await Post.findByIdAndDelete(req.params.postId);
     const comments = await Comment.deleteMany({ postId: req.params.postId });
   } catch (err) {
-    res.status(500).json({ err });
+    res.status(404).json({ err });
     throw err;
   }
-  res.status(200).json({ message: `Post and associated comments successfully deleted` });
+  res
+    .status(200)
+    .json({ message: `Post and associated comments successfully deleted` });
 };
 
 exports.update_post = [
@@ -93,7 +95,7 @@ exports.update_post = [
       title,
       text,
     }).catch((err) => {
-      res.status(500).json({ message: 'Post update failed' });
+      res.status(404).json({ message: 'Post update failed' });
       throw err;
     });
     res.status(200).json({ message: 'Post successfully updated' });
@@ -106,7 +108,7 @@ exports.publish_post = async (req, res) => {
     { $set: { published: true } },
     { new: true }
   ).catch((err) => {
-    res.status(500).json({ err });
+    res.status(404).json({ err });
     throw err;
   });
   res.status(200).json({ message: 'Post successfully published' });

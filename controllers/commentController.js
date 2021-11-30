@@ -20,7 +20,7 @@ exports.add_comment = [
       postId: req.params.postId,
       timestamps: true,
     }).catch((err) => {
-      res.status(500).json({ message: 'Cannot add comment to post' });
+      res.status(400).json({ message: 'Cannot add comment to post' });
       throw err;
     });
     const post = await Post.findByIdAndUpdate(
@@ -28,7 +28,7 @@ exports.add_comment = [
       { $push: { comments: comment } },
       { new: true }
     ).catch((err) => {
-      res.status(500).json({ err });
+      res.status(404).json({ err });
       throw err;
     });
     res
@@ -46,7 +46,7 @@ exports.delete_comment = async (req, res) => {
       { new: true }
     );
   } catch (err) {
-    res.status(500).json({ err });
+    res.status(404).json({ err });
     throw err;
   }
   res.status(200).json({ message: 'Comment successfully deleted' });
