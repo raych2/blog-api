@@ -3,9 +3,9 @@ const Post = require('../models/post');
 const { body, validationResult } = require('express-validator');
 
 exports.add_comment = [
-  body('author', 'Author must not be empty.')
+  body('author', 'Author must not be empty. Maximum length of 30 characters.')
     .trim()
-    .isLength({ min: 1 })
+    .isLength({ min: 1, max: 30 })
     .escape(),
   body('text', 'Text must not be empty.').trim().isLength({ min: 1 }).escape(),
 
