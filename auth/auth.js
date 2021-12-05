@@ -11,7 +11,7 @@ passport.use(
       expiresIn: '1d',
     },
     function (jwt_payload, done) {
-      User.findById(jwt_payload._id, function (err, user) {
+      User.findById(jwt_payload.user._id, function (err, user) {
         if (err) {
           return done(err, false);
         }
