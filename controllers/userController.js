@@ -52,7 +52,7 @@ exports.user_login = async (req, res) => {
     if (validPassword) {
       const secret = process.env.SECRET;
       const token = jwt.sign({ user: user }, secret, { expiresIn: '1d' });
-      return res.status(200).json({ message: 'Auth Passed', token, user });
+      return res.status(200).json({ message: 'Auth Passed', token });
     } else {
       return res.status(401).json({ message: 'The password is invalid' });
     }
