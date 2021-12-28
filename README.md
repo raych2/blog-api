@@ -1,6 +1,6 @@
 # Blog API
 
-This RESTful API serves two separate websites, _TOP Blog_ and _TOP Blog Admin_. The API endpoints are authenticated with JSON web tokens via passport-jwt. Authenticated users will not only be able to create, publish, update, and delete blog posts, but they'll also have the ability to delete comments. Viewers will only be allowed to add comments to blog posts. I gained more practice using MongoDB and Mongoose, securing passwords with bcryptjs, and Express middleware (i.e. express-validator). The project guidelines are listed in [The Odin Project](https://www.theodinproject.com/paths/full-stack-javascript/courses/nodejs/lessons/blog-api) Node.js curriculum.
+This RESTful API serves two separate websites, _TOP Blog_ and _TOP Blog Admin_. The API endpoints are authenticated with JSON web tokens via passport-jwt. Routes were tested with Postman.  Authenticated users will not only be able to create, publish, update, and delete blog posts, but they'll also have the ability to delete comments. Viewers will only be allowed to add comments to blog posts. I gained more practice using MongoDB and Mongoose, securing passwords with bcryptjs, and using Express middleware (i.e. express-validator). The project guidelines are listed in [The Odin Project](https://www.theodinproject.com/paths/full-stack-javascript/courses/nodejs/lessons/blog-api) Node.js curriculum.
 
 [Live Demo on Heroku](https://rt-blog-api.herokuapp.com/)
 
